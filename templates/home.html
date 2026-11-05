@@ -1,0 +1,123 @@
+{% load static %}
+<!doctype html>
+<html lang="hi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#8f2418">
+  <meta name="description" content="देहरादून और आसपास ज्योतिष, पूजा एवं वैदिक संस्कारों के लिए बुकिंग करें।">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="{{ canonical_url }}">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="hi_IN">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:title" content="पंडित जी | देहरादून">
+  <meta property="og:description" content="देहरादून और आसपास ज्योतिष, पूजा एवं वैदिक संस्कारों के लिए बुकिंग करें।">
+  <meta property="og:url" content="{{ canonical_url }}">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="पंडित जी | देहरादून">
+  <meta name="twitter:description" content="देहरादून और आसपास ज्योतिष, पूजा एवं वैदिक संस्कारों के लिए बुकिंग करें।">
+  <link rel="manifest" href="{% static 'manifest.webmanifest' %}">
+  <link rel="stylesheet" href="{% static 'styles.css' %}?v=11">
+  <title>पंडित जी | देहरादून</title>
+  {{ structured_data|json_script:"business-structured-data" }}
+</head>
+<body>
+<nav aria-label="मुख्य नेविगेशन" data-i18n-aria="navLabel">
+  <a class="brand" href="/" data-scroll-to="home">ॐ पंडित जी</a>
+  <div class="nav-controls">
+    <div class="nav-links">
+      <a href="/" data-scroll-to="services" data-i18n="navServices">सेवाएं</a>
+      <a href="/" data-open-booking data-i18n="navBooking">बुकिंग</a>
+      <div class="nav-contact-language">
+        <a class="contact" href="mailto:prateek.chaurasia2728@gmail.com?subject=Pandit%20Ji%20Enquiry" data-i18n="navContact">संपर्क करें</a>
+        <div class="language-switch" role="group" aria-label="भाषा चुनें" data-i18n-aria="languageLabel">
+          <button type="button" class="language-button is-active" data-language="hi" aria-pressed="true">हिन्दी</button>
+          <button type="button" class="language-button" data-language="en" aria-pressed="false">English</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+<header id="home">
+  <div>
+    <span data-i18n="location">DEHRADUN • उत्तराखंड</span>
+    <h1 data-i18n="title">पंडित जी नियर देहरादून</h1>
+    <p data-i18n="intro">ज्योतिष, कर्मकाण्ड एवं वैदिक संस्कारों के लिए विश्वसनीय सेवा।</p>
+    <a class="button" href="/" data-open-booking data-i18n="heroCta">ऑनलाइन बुकिंग करें</a>
+  </div>
+</header>
+<main>
+  <section id="services">
+    <h2 data-i18n="servicesTitle">हमारी सेवाएं</h2>
+    <div class="cards">
+      {% for service in services %}
+      <button
+        type="button"
+        class="service-card"
+        data-service-slug="{{ service.slug }}"
+        aria-controls="service-detail"
+        aria-label="{{ service.name_hi }}"
+      >
+        <span class="service-icon" aria-hidden="true">{{ service.icon }}</span>
+        <b data-service-name="{{ service.slug }}">{{ service.name_hi }}</b>
+      </button>
+      {% endfor %}
+    </div>
+  </section>
+  <section id="booking" class="booking">
+    <aside id="booking-intro">
+      <h2 data-i18n="bookingTitle">अपनी पूजा बुक करें</h2>
+      <p data-i18n="bookingIntro">अपनी आवश्यकता साझा करें—हम जल्दी ही आपसे संपर्क करेंगे।</p>
+      <ul>
+        <li data-i18n="bookingBenefitDate">सुविधाजनक तिथि</li>
+        <li data-i18n="bookingBenefitLocation">घर या आयोजन स्थल पर सेवा</li>
+        <li data-i18n="bookingBenefitArea">देहरादून एवं आसपास</li>
+      </ul>
+    </aside>
+    <form id="booking-form" novalidate>
+      {% csrf_token %}
+      <h2 data-i18n="formTitle">बुकिंग विवरण</h2>
+      <div class="fields">
+        <label><span data-i18n="labelName">आपका नाम</span><input name="name" required minlength="2" maxlength="100" autocomplete="name"></label>
+        <label><span data-i18n="labelPhone">मोबाइल नंबर</span><input name="phone" required type="tel" minlength="8" maxlength="20" autocomplete="tel"></label>
+        <label><span data-i18n="labelService">सेवा</span>
+          <select name="service" required>
+            <option value="" data-i18n="serviceChoose">सेवा चुनें</option>
+            <option value="ज्योतिष परामर्श" data-booking-service="astrology" data-i18n="serviceAstrology">ज्योतिष परामर्श</option>
+            <option value="जन्म कुंडली निर्माण" data-booking-service="kundli" data-i18n="serviceKundli">जन्म कुंडली निर्माण</option>
+            <option value="विवाह मिलान / संस्कार" data-booking-service="wedding" data-i18n="serviceWeddingForm">विवाह मिलान / संस्कार</option>
+            <option value="भागवत कथा / सुंदरकांड" data-booking-service="bhagwat" data-i18n="serviceBhagwat">भागवत कथा / सुंदरकांड</option>
+            <option value="गृह प्रवेश पूजन" data-booking-service="housewarming" data-i18n="serviceHousewarming">गृह प्रवेश पूजन</option>
+            <option value="नवग्रह शांति" data-booking-service="navgraha" data-i18n="serviceNavgrah">नवग्रह शांति</option>
+            <option value="यज्ञोपवीत संस्कार" data-booking-service="thread-ceremony" data-i18n="serviceThreadCeremony">यज्ञोपवीत संस्कार</option>
+          </select>
+        </label>
+        <label><span data-i18n="labelDate">पसंदीदा तिथि</span><input name="preferred_date" type="date" required></label>
+        <label class="full"><span data-i18n="labelDetails">स्थान या अतिरिक्त विवरण</span>
+          <textarea name="details" required maxlength="2000" data-i18n-placeholder="detailsPlaceholder" placeholder="पूजा का स्थान, समय या विशेष जानकारी"></textarea>
+        </label>
+      </div>
+      <button id="submit-booking" type="submit" data-i18n="submitBooking">बुकिंग अनुरोध भेजें</button>
+      <p id="form-message" role="status" aria-live="polite"></p>
+    </form>
+    <div id="service-detail" class="service-detail" aria-labelledby="service-detail-title" hidden>
+      <button id="service-back" class="service-detail-back" type="button" data-i18n="backToBooking">← बुकिंग विवरण पर वापस जाएं</button>
+      <h2 id="service-detail-title" tabindex="-1"></h2>
+      <p id="service-detail-description"></p>
+      <button id="service-booking" class="button" type="button" data-i18n="bookThisService">इस सेवा की बुकिंग करें</button>
+    </div>
+  </section>
+  <section class="contact-panel">
+    <div>
+      <h2 data-i18n="contactTitle">संपर्क करें</h2>
+      <p>📞 8077847343 | 9927977462</p>
+    </div>
+    <a id="whatsapp-link" class="button light" href="https://wa.me/918077847343?text=नमस्ते%20पंडित%20जी,%20मुझे%20पूजा%20के%20लिए%20जानकारी%20चाहिए।" target="_blank" rel="noopener" data-i18n="whatsapp">WhatsApp पर संदेश भेजें</a>
+  </section>
+</main>
+<footer data-i18n="footer">© 2026 पंडित जी नियर देहरादून</footer>
+{{ services|json_script:"service-details-data" }}
+<script src="{% static 'app.js' %}?v=10" defer></script>
+</body>
+</html>
